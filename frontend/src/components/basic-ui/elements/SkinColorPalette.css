@@ -1,0 +1,15 @@
+/* SkinColorPalette.css */
+.skin-color-palette {
+    width: 106%;
+    display: flex;
+    border-radius: 10px; /* Rounded edges */
+    overflow: hidden; /* Hide overflow */
+  }
+  
+  .palette-section {
+    flex: 1; /* Each section takes equal space */
+    height: 30px; /* Height of the palette */
+  }
+  
+  /* Add additional styling as needed */
+  

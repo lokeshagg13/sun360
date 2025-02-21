@@ -1,0 +1,85 @@
+/* RegisterPage.css */
+.register-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.error-message {
+  color: red;
+}
+
+.success-message, .pending-message {
+  color: black;
+  font-style: italic;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  margin-bottom: 5px;
+}
+
+input,
+select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+select {
+  width: 106%;
+  height: 40px;
+  background-color: white;
+}
+
+.family-member-heading {
+  margin: 0px -13px 17px -13px;
+}
+
+.color-box {
+  width: 40px;
+  height: 40px;
+}
+
+button.add-member {
+  padding: 10px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  width: 90%;
+  margin-top: 55px;
+  align-self: center;
+}
+
+button[type="submit"] {
+  padding: 10px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 55px;
+}
+
+button[type="submit"]:hover {
+  background-color: #2980b9;
+}

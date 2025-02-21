@@ -1,0 +1,17 @@
+{
+  "name": "sun360",
+  "version": "1.0.0",
+  "description": "**An app to spread awareness of sun-related damages",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lokeshagg13/sun360.git"
+  }
+}

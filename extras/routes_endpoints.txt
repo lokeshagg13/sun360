@@ -1,0 +1,85 @@
+// ******************* LOCATIONS *******************
+// Fetch all locations
+fetch('/locations') 
+  .then(response => response.json())
+  .then(data => { /* Use the 'data' containing locations */ }); 
+
+// Fetch a single location
+fetch(`/locations/${locationId}`) // Replace 'locationId' with the actual ID
+  .then(response => response.json())
+  .then(data => { /* Use the 'data' containing location details */ }); 
+
+// ******************* USERS *******************
+// Create a user
+fetch('/users', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(userData) // 'userData' is an object with user details
+})
+.then(response => response.json())
+.then(data => { /* Use the 'data' containing created user info */ });
+
+// Fetch a user
+fetch(`/users/${userId}`)  // Replace 'userId' with the actual ID
+  .then(response => response.json())
+  .then(data => { /* Use the 'data' containing user details */ });
+
+// Update a user (Similar pattern as 'fetch', but use 'PUT' method)
+// Delete a user (Similar pattern as 'fetch', but use 'DELETE' method)
+
+// ******************* UV DATA *******************
+// Get all UV records 
+fetch('/uv-data') 
+.then(response => response.json())
+.then(data => { /* Use the 'data' containing UV records */ }); 
+
+// ******************* SUNSCREEN REMINDERS *******************
+// Get reminders for a user
+fetch(`/users/${userId}/sunscreen-reminders`) // Replace 'userId'
+  .then(response => response.json())
+  .then(data => { /* Use the 'data' containing reminders */ }); 
+
+// Create a reminder
+fetch(`/users/${userId}/sunscreen-reminders`, { // Replace 'userId'
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(reminderData) 
+}) 
+.then(response => response.json())
+.then(data => { /* Use the 'data' containing the created reminder */ });
+// ******************* TEMP ALERTS *******************
+// Fetch a specific temperature alert
+fetch(`/temp-alerts/${tempAlertId}`) // Replace 'tempAlertId'
+  .then(response => response.json())
+  .then(data => { /* Use the 'data' containing temp alert details */ });  
+
+// Fetch temperature alerts for a location 
+fetch(`/locations/${locationId}/temp-alerts`) // Replace 'locationId'
+  .then(response => response.json())
+  .then(data => { /* Use the 'data' containing temp alerts */ });  
+
+// ******************* SUBURBS *******************
+// Fetch suburbs for a location
+fetch(`/locations/${locationId}/suburbs`) // Replace 'locationId'
+  .then(response => response.json())
+  .then(data => { /* Use the 'data' containing suburbs */ });  
+
+// ******************* MORTALITY *******************
+// Get mortality data (with optional filtering)
+fetch(`/mortality?lat=${latitude}&long=${longitude}&start_year=${startYear}&end_year=${endYear}&cancer_type=${cancerType}`) 
+  // Replace placeholders with actual values for filtering
+  .then(response => response.json())
+  .then(data => { /* Use the 'data' containing mortality records  */ }); 
+
+// ******************* INCIDENCE *******************
+// Get incidence data (with optional filtering, similar to mortality)
+fetch(`/incidence?lat=${latitude}&long=${longitude}&start_year=${startYear}&end_year=${endYear}&cancer_type=${cancerType}`) 
+  // Replace placeholders with actual values for filtering
+  .then(response => response.json())
+  .then(data => { /* Use the 'data' containing incidence records  */ }); 
+
+// ******************* CURRENT CONDITIONS *******************
+// Get current conditions for a location
+fetch(`/locations/${locationId}/current-conditions`) // Replace 'locationId'
+  .then(response => response.json())
+  .then(data => { /* Use the 'data' containing location, UV, and temp alert info  */ }); 

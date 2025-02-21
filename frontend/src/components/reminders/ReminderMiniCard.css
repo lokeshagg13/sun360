@@ -1,0 +1,40 @@
+.mini-card {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  font-weight: bold;
+  margin-top: 20px;
+  height: 30px;
+  align-items: center;
+}
+
+.mini-card > div {
+  flex: 1; /* Equal length for all inner divs */
+}
+
+div.user,
+div.day,
+div.frequency {
+  text-align: center;
+}
+
+.time,
+.user,
+.day {
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mini-card.red {
+  background-color: #ffcccb;
+}
+
+.mini-card.yellow {
+  background-color: #ffffe0;
+}
+
+.mini-card.green {
+  background-color: #d1ffbd;
+}

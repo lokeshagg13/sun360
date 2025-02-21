@@ -1,0 +1,16 @@
+# dependencies
+frontend/node_modules
+backend-env
+backend-env/Lib/site-packages
+backend-env/share
+__pycache__
+
+
+# misc
+.DS_Store
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+victoria.json

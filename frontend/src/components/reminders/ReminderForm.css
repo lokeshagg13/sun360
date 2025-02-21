@@ -1,0 +1,147 @@
+/* RegisterPage.css */
+.register-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.error-message {
+  color: red;
+}
+
+.success-message,
+.pending-message {
+  color: black;
+  font-style: italic;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  margin-bottom: 20px;
+}
+
+.time-row {
+  flex-direction: row;
+  display: flex;
+  align-self: flex-start;
+}
+
+.form-label {
+  margin-bottom: 5px;
+}
+
+input,
+select,
+textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+textarea {
+  height: 80px;
+  background-color: lightyellow;
+}
+
+.form-row > input {
+  margin-left: 12px;
+}
+
+input[type="number"] {
+  text-align: center;
+}
+
+.time-row > input:first-child {
+  margin-left: -10px;
+}
+
+select#color option.Y {
+  background-color: #FFFFE0;
+}
+
+select#color option.Y:hover {
+  background-color: yellow;
+}
+
+select#color option.R {
+  background-color: #FFCCCB;
+}
+
+select#color option.R:hover {
+  background-color: red;
+}
+
+select#color option.G {
+  background-color: #D1FFBD;
+}
+
+select#color option.G:hover {
+  background-color: green;
+}
+
+.time-row > input:last-child {
+  margin-left: 10px;
+}
+
+.error-message {
+  color: red;
+}
+
+.pending-message {
+  color: black;
+  font-style: italic;
+}
+
+select {
+  width: 106%;
+  height: 40px;
+  background-color: white;
+}
+
+.family-member-heading {
+  margin: 0px -13px 17px -13px;
+}
+
+.color-box {
+  width: 40px;
+  height: 40px;
+}
+
+button.add-member {
+  padding: 10px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  width: 90%;
+  margin-top: 55px;
+  align-self: center;
+}
+
+button[type="submit"] {
+  padding: 10px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 55px;
+}
+
+button[type="submit"]:hover {
+  background-color: #2980b9;
+}
