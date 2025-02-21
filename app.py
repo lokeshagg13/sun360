@@ -10,15 +10,10 @@ from sqlalchemy import create_engine, func, and_
 from sqlalchemy.engine.reflection import Inspector
 from sqlalchemy.dialects.postgresql.base import PGDialect
 from werkzeug.security import generate_password_hash, check_password_hash
+
 PGDialect._get_server_version_info = lambda *args: (9, 2)
 
-from models import (
-    Users,
-    FamilyMember,
-    Suburb,
-    Suburb_Shp,
-    SSReminder
-)
+from models import Users, FamilyMember, Suburb, Suburb_Shp, SSReminder
 from database import db
 
 load_dotenv()
@@ -408,4 +403,4 @@ if __name__ == "__main__":
             print("Database tables created successfully.")
         except Exception as e:
             print(f"An error occurred while creating the database tables: {e}")
-    app.run(debug=True, port=5000)
+    app.run(debug=True if os.environ.get("FLASK_ENV") == "dev" else False, port=5000)
