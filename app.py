@@ -101,7 +101,7 @@ def serve_react_app():
     for item in os.listdir(folder_path):
         item_path = os.path.join(folder_path, item)
         print(f"{item_path}")
-    print('Check if exist: ', os.path.exists(app.static_folder, "index.html"))
+    print('Check if exist: ', os.path.exists(os.path.join(app.static_folder, "index.html")))
     return send_from_directory(app.static_folder, "index.html")
 
 
