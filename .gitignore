@@ -1,6 +1,5 @@
 # dependencies
 frontend/node_modules
-frontend/build
 backend-env
 backend-env/Lib/site-packages
 backend-env/share
