@@ -9,9 +9,9 @@ import ReminderHomeList from "./reminders/ReminderHomeList";
 // import ChoroplethMap from "./uvlevels/ChoroplethMap";
 
 const GET_SUBURBS_URL =
-  "http://127.0.0.1:5000/suburbs/<<postcode>>";
+  "/api/suburbs/<<postcode>>";
 const GET_RECORDS_URL =
-  "http://127.0.0.1:5000/suburbs/<<postcode>>/record";
+  "/api/suburbs/<<postcode>>/record";
 
 function Home() {
   const { auth } = useAuth();

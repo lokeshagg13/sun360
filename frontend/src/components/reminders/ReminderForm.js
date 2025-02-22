@@ -16,7 +16,7 @@ const getCurrentDate = () => {
 };
 
 const SET_REMINDER_URL =
-  "http://127.0.0.1:5000/users/<<user_id>>/sunscreen-reminders";
+  "/api/users/<<user_id>>/sunscreen-reminders";
 
 function convertTo24HourFormat(time12) {
   let { hour, minute, amOrPm } = time12;

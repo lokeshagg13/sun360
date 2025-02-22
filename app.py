@@ -163,7 +163,7 @@ def logout_user(access_id, access_token):
         return False
 
 
-@app.route("/login", methods=["POST"])
+@app.route("/api/login", methods=["POST"])
 def login():
     data = request.get_json()
     email = data.get("users_email")  # Use email to match users_email
@@ -186,7 +186,7 @@ def login():
         return jsonify({"error": "Invalid credentials"}), 401
 
 
-@app.route("/logout", methods=["GET"])
+@app.route("/api/logout", methods=["GET"])
 def logout():
     access_id = request.args.get("access_id", type=int)
     access_token = request.args.get("access_token", type=str)
@@ -204,7 +204,7 @@ def is_valid_password(password):
     return True
 
 
-@app.route("/users", methods=["POST"])
+@app.route("/api/users", methods=["POST"])
 def create_user():
     data = request.get_json()
 
@@ -277,7 +277,7 @@ def create_user():
         return jsonify({"error": "Unexpected registration error"}), 500
 
 
-@app.route("/users/<int:users_id>", methods=["GET", "PUT", "DELETE"])
+@app.route("/api/users/<int:users_id>", methods=["GET", "PUT", "DELETE"])
 def manage_user(users_id):
     user = Users.query.get_or_404(users_id)
 
@@ -325,7 +325,7 @@ def update_num_requests_for_api(api_name, num_requests):
             writer.writerows(rows)
 
 
-@app.route("/suburbs/<string:postcode>", methods=["GET"])
+@app.route("/api/suburbs/<string:postcode>", methods=["GET"])
 def get_suburbs(postcode):
     suburbs = Suburb.query.filter_by(suburb_postcode=postcode)
     if not suburbs:
@@ -336,7 +336,7 @@ def get_suburbs(postcode):
     return jsonify({"suburbs": suburbs_list}), 200
 
 
-@app.route("/suburbs/<string:postcode>/record", methods=["GET"])
+@app.route("/api/suburbs/<string:postcode>/record", methods=["GET"])
 def get_data_for_suburbs(postcode):
     suburb = Suburb.query.filter_by(suburb_postcode=postcode).first()
     if not suburb:
@@ -379,7 +379,7 @@ def get_data_for_suburbs(postcode):
 # SUNSCREEN REMINDERS
 
 
-@app.route("/users/<int:users_id>/sunscreen-reminders", methods=["GET", "POST"])
+@app.route("/api/users/<int:users_id>/sunscreen-reminders", methods=["GET", "POST"])
 def manage_sunscreen_reminders(users_id):
     # Check if the user exists
     user = Users.query.get_or_404(users_id)
@@ -437,7 +437,7 @@ def manage_sunscreen_reminders(users_id):
 
 
 @app.route(
-    "/users/<int:users_id>/sunscreen-reminders/<int:ssreminder_id>", methods=["GET"]
+    "/api/users/<int:users_id>/sunscreen-reminders/<int:ssreminder_id>", methods=["GET"]
 )
 def get_specific_reminder(users_id, ssreminder_id):
     # Check if the user exists
@@ -459,7 +459,7 @@ def get_specific_reminder(users_id, ssreminder_id):
 
 
 @app.route(
-    "/users/<int:users_id>/sunscreen-reminders/<int:ssreminder_id>", methods=["PUT"]
+    "/api/users/<int:users_id>/sunscreen-reminders/<int:ssreminder_id>", methods=["PUT"]
 )
 def update_sunscreen_reminder(users_id, ssreminder_id):
     # Check if the user exists
@@ -485,7 +485,7 @@ def update_sunscreen_reminder(users_id, ssreminder_id):
 
 
 @app.route(
-    "/users/<int:users_id>/delete-reminder/<int:ssreminder_id>", methods=["DELETE"]
+    "/api/users/<int:users_id>/delete-reminder/<int:ssreminder_id>", methods=["DELETE"]
 )
 def delete_sunscreen_reminder(users_id, ssreminder_id):
     # Check if the user exists
@@ -510,7 +510,7 @@ def delete_sunscreen_reminder(users_id, ssreminder_id):
 # UV Data routes
 
 
-@app.route("/uv-impacts", methods=["GET"])
+@app.route("/api/uv-impacts", methods=["GET"])
 def get_uvimpacts_data():
     age = request.args.get("age", type=int)
     gender = request.args.get("gender", type=str)

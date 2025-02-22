@@ -9,7 +9,7 @@ import "./ReminderList.css";
 import { getReminderDisplayInfo } from "../../utils/reminderUtils";
 
 const GET_REMINDERS_URL =
-  "http://127.0.0.1:5000/users/<<user_id>>/sunscreen-reminders";
+  "/api/users/<<user_id>>/sunscreen-reminders";
 
 function ReminderList() {
   const [reminders, setReminders] = useState([]);
