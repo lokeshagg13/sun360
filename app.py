@@ -39,9 +39,9 @@ owapi_base_url = (
 db.init_app(app)
 
 
-@app.before_request
-def debug_request():
-    print(f"Headers: {request.headers}")
+# @app.before_request
+# def debug_request():
+#     print(f"Headers: {request.headers}")
 
 
 def create_app_folder():
