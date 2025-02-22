@@ -4,7 +4,7 @@ import secrets
 import requests
 
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS, cross_origin
 from sqlalchemy import create_engine, func, and_
 from sqlalchemy.engine.reflection import Inspector
@@ -29,7 +29,7 @@ load_dotenv()
 
 #######################################################
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="frontend/build", static_url_path="/")
 CORS(app, supports_credentials=True, allow_headers="*", origins="*")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
 owapi_base_url = (
@@ -69,8 +69,8 @@ def create_apireq_csv():
 
 
 @app.route("/", methods=["GET"])
-def index():
-    return jsonify({"response": "Welcome to sun 360"})
+def serve_react_app():
+    return send_from_directory(app.static_folder, "index.html")
 
 
 @app.errorhandler(404)
@@ -359,7 +359,7 @@ def get_data_for_suburbs(postcode):
         print(owapi_url)
         print(f"Error: {response.status_code}")
         print(response)
-        
+
         return jsonify({"message": "error in open weather api"}), 500
         # return jsonify(all_suburbs)
 
