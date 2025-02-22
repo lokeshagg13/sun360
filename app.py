@@ -47,7 +47,6 @@ owapi_base_url = (
 )
 
 
-
 # @app.before_request
 # def debug_request():
 #     print(f"Headers: {request.headers}")
@@ -369,6 +368,7 @@ def get_data_for_suburbs(postcode):
 
         return jsonify({"message": "error in open weather api"}), 500
 
+
 #########################################################
 # SUNSCREEN REMINDERS
 
@@ -509,6 +509,9 @@ def get_uvimpacts_data():
     age = request.args.get("age", type=int)
     gender = request.args.get("gender", type=str)
     age_str = None
+    if age is None:
+        age_str = "90+"
+
     if age > 90:
         age_str = "90+"
     else:
@@ -543,7 +546,7 @@ def get_uvimpacts_data():
 
 create_app_folder()
 create_apireq_csv()
-    
+
 if __name__ == "__main__":
     with app.app_context():
         try:

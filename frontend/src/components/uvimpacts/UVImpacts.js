@@ -81,6 +81,9 @@ function UVImpacts() {
         setAgeGroup("");
       }
     }
+    if (!age || !gender) {
+      return;
+    }
     fetchData();
   }, [age, gender]);
 
