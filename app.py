@@ -97,9 +97,11 @@ def display_file_structure(folder_path, indent_level=0):
 @app.route("/", methods=["GET"])
 def serve_react_app():
     print("I am here, ", os.getcwd())
-    for item in os.listdir(os.getcwd()):
-        item_path = os.path.join(os.getcwd(), item)
-        print(f"{item}")
+    folder_path = os.path.join(os.getcwd(), 'frontend')
+    for item in os.listdir(folder_path):
+        item_path = os.path.join(folder_path, item)
+        print(f"{item_path}")
+    print('Check if exist: ', os.path.exists(app.static_folder, "index.html"))
     return send_from_directory(app.static_folder, "index.html")
 
 
