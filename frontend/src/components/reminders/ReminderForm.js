@@ -211,7 +211,7 @@ function ReminderForm() {
             </select>
           </div>
         </div>
-        {recommTime && <p className="recomm-time">Next recommendation application: {recommTime}</p>}
+        {recommTime && <p className="recomm-time">Next recommended application: {recommTime}</p>}
         <div className="form-row">
           <label htmlFor="user" className="form-label">
             User
