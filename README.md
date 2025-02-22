@@ -1,54 +1,65 @@
-# Sun360
+# 🌞 Sun360
 
 Sun360 is a user-friendly application designed to protect individuals in Victoria, Australia, from harmful UV rays. It provides essential UV-related information and recommendations tailored to different age groups and genders, ensuring a safe and informed experience under the sun.
 
 ---
 
-## Features
+## ✨ Features
 
-1. **UV Impact Visualization:**
+1. **📊 UV Impact Visualization:**
+
    - Graphical representation of UV impacts across various age groups and genders.
 
-2. **Location-based UV Index and Temperature:**
+2. **📍 Location-based UV Index and Temperature:**
+
    - Check UV Index and temperature for any location in Victoria using its postcode.
 
-3. **Clothing Recommendations:**
+3. **👕 Clothing Recommendations:**
+
    - Provides clothing suggestions based on the current UV Index.
 
-4. **Sunscreen Reminders:**
+4. **⏰ Sunscreen Reminders:**
+
    - Personalized reminders for sunscreen application for users and their family members.
 
-5. **Family Management:**
+5. **👨‍👩‍👧 Family Management:**
+
    - Register and manage family members for customized settings and reminders.
 
-6. **Settings Customization:**
+6. **⚙️ Settings Customization:**
    - Tailor the application to suit personal preferences.
 
 ---
 
-## Installation
+## 🛠️ Installation
 
 ### Prerequisites:
+
 - Python 3.8 or higher
 - PostgreSQL database
 
 ### Steps:
+
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/your-repo/sun360.git
    ```
 
 2. Navigate to the project directory:
+
    ```bash
    cd sun360
    ```
 
 3. Install dependencies:
+
    ```bash
    pip install -r requirements.txt
    ```
 
 4. Set up environment variables:
+
    - Create a `.env` file in the root directory.
    - Add the following variables:
      ```
@@ -65,14 +76,16 @@ Sun360 is a user-friendly application designed to protect individuals in Victori
 
 ---
 
-## File Structure
+## 🗂️ File Structure
 
 ### **Backend**
 
 - **`app.py`**:
+
   - Main application file containing routes, middleware, and API logic.
 
 - **`models.py`**:
+
   - Defines database models such as `Users`, `FamilyMember`, `Suburb`, and more.
 
 - **`database.py`**:
@@ -81,78 +94,84 @@ Sun360 is a user-friendly application designed to protect individuals in Victori
 ### **Utilities**
 
 - **`api_requests.csv`**:
+
   - Tracks the number of API requests to external services.
 
 - **`.env`**:
   - Environment variables for secure configurations.
 
-### **Static and Miscellaneous**
-
-- **`app/`**:
-  - Folder to store auxiliary application data.
-
 ---
 
-## Dependencies
+## 📦 Dependencies
 
 - **Frameworks and Libraries:**
+
   - Flask
   - Flask-CORS
   - SQLAlchemy
   - dotenv
 
 - **Database:**
+
   - PostgreSQL
 
 - **API Services:**
-  - OpenWeather API
+
+  - 🌤️ OpenWeather API
 
 - **Other Utilities:**
-  - Werkzeug
-  - CSV
+  - 🔐 Werkzeug
+  - 📜 CSV
 
 ---
 
-## Usage
+## 🚀 Usage
 
-1. **Login and Registration:**
+1. **🔑 Login and Registration:**
+
    - Users can register with their details, including family members.
    - Login using the registered email and password.
 
-2. **Check UV and Temperature:**
+2. **☀️ Check UV and Temperature:**
+
    - Enter a postcode to view the UV Index and temperature for the area.
 
-3. **Get Clothing Recommendations:**
+3. **👕 Get Clothing Recommendations:**
+
    - Receive clothing suggestions based on UV levels.
 
-4. **Set Sunscreen Reminders:**
+4. **⏰ Set Sunscreen Reminders:**
+
    - Create personalized reminders for sunscreen application.
 
-5. **Manage Family Members:**
+5. **👨‍👩‍👧 Manage Family Members:**
    - Add or modify family members’ details for tailored notifications.
 
 ---
 
-## API Endpoints
+## 🌐 API Endpoints
 
-- **User Authentication:**
+- **🔑 User Authentication:**
+
   - `/login`: POST - Login user.
   - `/logout`: GET - Logout user.
 
-- **User Management:**
+- **👤 User Management:**
+
   - `/users`: POST - Register a new user.
   - `/users/<id>`: GET/PUT/DELETE - Manage user details.
 
-- **UV and Temperature:**
+- **☀️ UV and Temperature:**
+
   - `/suburbs/<postcode>`: GET - Fetch suburb information.
   - `/suburbs/<postcode>/record`: GET - Get UV Index and temperature.
 
-- **Sunscreen Reminders:**
+- **⏰ Sunscreen Reminders:**
   - `/users/<id>/sunscreen-reminders`: GET/POST - Manage reminders.
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository.
 2. Create a new branch for your feature or bugfix.
@@ -161,15 +180,16 @@ Sun360 is a user-friendly application designed to protect individuals in Victori
 
 ---
 
-## License
+## 📜 License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ---
 
-## References
+## 📚 References
 
 1. [Favicon Generator - favicon.io](https://favicon.io/)
+
    - The favicon was generated using the following graphics from Twitter Twemoji:
      - **Graphics Title**: 2600.svg
      - **Graphics Author**: Copyright 2020 Twitter, Inc and other contributors ([Twemoji Repository](https://github.com/twitter/twemoji))
@@ -188,7 +208,7 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 ---
 
-## Contact
+## 📧 Contact
 
 For any inquiries or support, please contact [lkaggarwal1997@gmail.com](mailto:lkaggarwal1997@gmail.com).
 
