@@ -554,6 +554,9 @@ def get_uvimpacts_data():
     return jsonify({"_data": data_rows})
 
 
+create_app_folder()
+create_apireq_csv()
+    
 if __name__ == "__main__":
     with app.app_context():
         try:
@@ -561,6 +564,4 @@ if __name__ == "__main__":
             print("Database tables created successfully.")
         except Exception as e:
             print(f"An error occurred while creating the database tables: {e}")
-        create_app_folder()
-        create_apireq_csv()
     app.run(debug=True if os.environ.get("FLASK_ENV") == "dev" else False, port=5000)
