@@ -202,9 +202,7 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 4. [What is Ultraviolet (UV) Radiation? - AIM at Melanoma](https://www.aimatmelanoma.org/melanoma-101/prevention/what-is-ultraviolet-uv-radiation/)
 
-5. [What is Ultraviolet (UV) Radiation? - AIM at Melanoma](https://www.aimatmelanoma.org/melanoma-101/prevention/what-is-ultraviolet-uv-radiation/)
-
-6. [Cancer Incidence Age-Standardised Rates - AIHW](https://www.google.com/url?q=https://www.aihw.gov.au/getmedia/e8779760-1b3c-4c2e-a6c2-b0a8d764c66b/AIHW-CAN-122-CDiA-2021-Book-1a-Cancer-incidence-age-standardised-rates-5-year-age-groups.xlsx.aspx&sa=D&source=apps-viewer-frontend&ust=1710438466470891&usg=AOvVaw1_D6q7O1ZWsAXDirk3QotR&hl=en-GB)
+5. [Cancer Incidence Age-Standardised Rates - AIHW](https://www.google.com/url?q=https://www.aihw.gov.au/getmedia/e8779760-1b3c-4c2e-a6c2-b0a8d764c66b/AIHW-CAN-122-CDiA-2021-Book-1a-Cancer-incidence-age-standardised-rates-5-year-age-groups.xlsx.aspx&sa=D&source=apps-viewer-frontend&ust=1710438466470891&usg=AOvVaw1_D6q7O1ZWsAXDirk3QotR&hl=en-GB)
 
 ---
 
