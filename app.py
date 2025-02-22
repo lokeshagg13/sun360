@@ -97,7 +97,6 @@ def display_file_structure(folder_path, indent_level=0):
 @app.route("/", methods=["GET"])
 def serve_react_app():
     print('I am here, ', os.getcwd())
-    display_file_structure(os.getcwd())
     return send_from_directory(app.static_folder, "index.html")
 
 
