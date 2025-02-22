@@ -1,0 +1,23 @@
+.acknow-row {
+  display: flex;
+  padding: 10px 10px 10px 10px;
+  align-items: center;
+  background-color: #ffe56b;
+  position: fixed; /* or position: absolute; */
+  bottom: 0;
+  width: 100%;
+}
+
+.acknow-row .flags {
+  margin-right: 20px;
+}
+
+.acknow-row img {
+  width: 50px;
+}
+
+.acknow-row .text {
+  font-size: 9px;
+  text-align: justify;
+  width: 75%;
+}

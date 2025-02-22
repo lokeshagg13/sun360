@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import useAuth from "../../hooks/useAuth";
 
 import "./ReminderForm.css";
+import { getTimeAfterTwoHoursForObj } from "../../utils/dateTimeUtils";
 
 const getCurrentDate = () => {
   const today = new Date();
@@ -39,23 +40,37 @@ function ReminderForm() {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedWeekday, setSelectedWeekday] = useState("MO");
   const [selectedTime, setSelectedTime] = useState({
-    hour: "",
-    minute: "",
-    amOrPm: "",
+    hour: "12",
+    minute: "00",
+    amOrPm: "am",
   });
   const [user, setUser] = useState("");
   const [notes, setNotes] = useState("");
   const [selectedColor, setSelectedColor] = useState("Y");
   const [status, setStatus] = useState(null);
   const [remarks, setRemarks] = useState("");
+  const [recommTime, setRecommTime] = useState("");
   const [currentDate, _] = useState(getCurrentDate());
+
+  useEffect(() => {
+    if (
+      selectedTime !== null &&
+      selectedTime.hour &&
+      selectedTime.hour !== "" &&
+      selectedTime.minute &&
+      selectedTime.minute !== "" &&
+      selectedTime.amOrPm &&
+      selectedTime.amOrPm !== ""
+    )
+      setRecommTime(`${getTimeAfterTwoHoursForObj(selectedTime)}`);
+  }, [selectedTime]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       setStatus("p");
-      setRemarks("Registering your details");
+      setRemarks("Setting your reminder");
 
       await axios.post(
         SET_REMINDER_URL.replace("<<user_id>>", auth.accessID),
@@ -77,9 +92,9 @@ function ReminderForm() {
 
       navigate("/reminders");
     } catch (error) {
-      console.error("Registration Error:", error);
+      console.error("Reminder Set Error:", error);
       setStatus("e");
-      setRemarks("Registration failed. Please try again.");
+      setRemarks("Reminder Setting failed. Please try again.");
     }
   };
 
@@ -121,7 +136,7 @@ function ReminderForm() {
         {frequency === "W" && (
           <div className="form-row">
             <label htmlFor="weekday" className="form-label">
-              Weekday
+              Day
             </label>
             <select
               name="weekday"
@@ -196,6 +211,7 @@ function ReminderForm() {
             </select>
           </div>
         </div>
+        {recommTime && <p className="recomm-time">Next recommendation application: {recommTime}</p>}
         <div className="form-row">
           <label htmlFor="user" className="form-label">
             User

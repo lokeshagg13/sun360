@@ -1,0 +1,48 @@
+.big-card {
+  display: block;
+  padding: 20px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+div.day,
+div.frequency {
+  text-align: center;
+}
+
+div.user {
+  text-align: left;
+}
+
+div.mid-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.time,
+.user,
+.day {
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card.red {
+  background-color: #ffcccb;
+}
+
+.card.yellow {
+  background-color: #fdf973;
+}
+
+.card.green {
+  background-color: #d1ffbd;
+}
+
+.notes, .recomm {
+  text-align: left;
+  margin-left: 0px;
+  padding-bottom: 20px;
+  padding-left: 22px;
+}

@@ -1,0 +1,26 @@
+h1 {
+  text-align: center;
+}
+
+.input-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-age {
+  width: 41%;
+}
+
+label {
+ font-weight: 700;
+}
+
+input,
+select {
+  margin-top: 10px;
+  text-align: left !important;
+}
+
+.input-gender {
+  width: 35%;
+}

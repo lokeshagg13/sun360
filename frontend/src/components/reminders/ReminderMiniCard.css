@@ -1,3 +1,9 @@
+.card-div a {
+  color: black;
+  text-decoration: solid;
+  cursor: pointer;
+}
+
 .mini-card {
   display: flex;
   justify-content: space-between;
@@ -8,7 +14,7 @@
   align-items: center;
 }
 
-.mini-card > div {
+.mini-card > div:not(:last-child) {
   flex: 1; /* Equal length for all inner divs */
 }
 
@@ -27,14 +33,29 @@ div.frequency {
   text-overflow: ellipsis;
 }
 
-.mini-card.red {
+.card.red {
   background-color: #ffcccb;
 }
 
-.mini-card.yellow {
-  background-color: #ffffe0;
+.card.yellow {
+  background-color: #fdf973;
 }
 
-.mini-card.green {
+.card.green {
   background-color: #d1ffbd;
+}
+
+.notes {
+  text-align: right;
+  margin-left: 12px;
+}
+
+.notes svg {
+  width: 25px;
+  height: 25px;
+}
+
+.recomm {
+  text-align: center;
+  padding-bottom: 5px;
 }

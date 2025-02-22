@@ -1,19 +1,28 @@
 import os
+import csv
 import secrets
 import requests
 
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
-from flask.helpers import send_from_directory
 from sqlalchemy import create_engine, func, and_
 from sqlalchemy.engine.reflection import Inspector
-from sqlalchemy.dialects.postgresql.base import PGDialect
 from werkzeug.security import generate_password_hash, check_password_hash
+
+from sqlalchemy.dialects.postgresql.base import PGDialect
 
 PGDialect._get_server_version_info = lambda *args: (9, 2)
 
-from models import Users, FamilyMember, Suburb, Suburb_Shp, SSReminder
+from models import (
+    Users,
+    FamilyMember,
+    Suburb,
+    Suburb_Shp,
+    SSReminder,
+    CancerStatistics,
+    CancerIncidence,
+)
 from database import db
 
 load_dotenv()
@@ -21,44 +30,47 @@ load_dotenv()
 #######################################################
 
 app = Flask(__name__)
+CORS(app, supports_credentials=True, allow_headers="*", origins="*")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
 owapi_base_url = (
-    "https://api.openweathermap.org/data/2.5/onecall?lat=<<lat>>&lon=<<lon>>&exclude=hourly,daily,minutely,alerts&appid="
+    "https://api.openweathermap.org/data/3.0/onecall?lat=<<lat>>&lon=<<lon>>&exclude=hourly,daily,minutely,alerts&units=metric&appid="
     + os.environ.get("OPEN_WEATHER_API_KEY")
 )
 db.init_app(app)
-CORS(app, supports_credentials=True, allow_headers="*", origins="*")
 
 
-@app.cli.command("check-tables")
-def check_tables():
-    """Check if tables exist in the database."""
-    engine = create_engine(app.config["SQLALCHEMY_DATABASE_URI"])
-    inspector = Inspector.from_engine(engine)
-    tables = inspector.get_table_names()
-    if tables:
-        print("Found tables in the database:")
-        for table in tables:
-            print(f"- {table}")
+@app.before_request
+def debug_request():
+    print(f"Headers: {request.headers}")
+
+
+def create_app_folder():
+    if not os.path.exists("app"):
+        os.makedirs("app")
+
+
+def create_apireq_csv():
+    file_path = os.path.join("app", "api_requests.csv")
+    if not os.path.exists(file_path):
+        with open(file_path, mode="w", newline="") as csv_file:
+            writer = csv.writer(csv_file)
+            # Write the headers
+            writer.writerow(["api", "num_requests"])
+            # Write the initial row
+            writer.writerow(["owapi", 0])
+        # print(f"File 'api_requests.csv' created with headers and initial row.")
     else:
-        print("No tables found in the database.")
-
-
-@app.cli.command("create-db")
-def create_db():
-    """Create database tables."""
-    with app.app_context():
-        db.create_all()
+        # print(f"File 'api_requests.csv' already exists.")
+        pass
 
 
 #######################################################
 # Basic Routes (Placeholders )
 
 
-@app.route("/")
-@cross_origin()
+@app.route("/", methods=["GET"])
 def index():
-    return send_from_directory(app.static_folder, "index.html")
+    return jsonify({"response": "Welcome to sun 360"})
 
 
 @app.errorhandler(404)
@@ -123,9 +135,19 @@ def login_user(user):
         return None
 
 
-def logout_user(users_id):
+def logout_user(access_id, access_token):
     try:
-        Users.query.filter_by(users_id=users_id).update({"users_access_token": None})
+        if not access_id or not access_token:
+            return False
+        user = Users.query.filter_by(users_id=access_id).first()
+
+        if not user:
+            return False
+
+        if user.users_access_token != access_token:
+            return False
+
+        Users.query.filter_by(users_id=access_id).update({"users_access_token": None})
         db.session.commit()
         return True
     except:
@@ -155,10 +177,11 @@ def login():
         return jsonify({"error": "Invalid credentials"}), 401
 
 
-@app.route("/logout", methods=["POST"])
+@app.route("/logout", methods=["GET"])
 def logout():
-    users_id = request.headers.get("Access-ID")
-    if logout_user(users_id):
+    access_id = request.args.get("access_id", type=int)
+    access_token = request.args.get("access_token", type=str)
+    if logout_user(access_id, access_token):
         return jsonify({"message": "Logged out"}), 200
     else:
         return jsonify({"error": "Unable to logout"}), 401
@@ -269,40 +292,78 @@ def manage_user(users_id):
 # LOCATIONS
 
 
-@app.route("/suburb-UV-temp", methods=["GET"])
-def get_data_for_suburbs():
-    # All Shape File locations
-    all_suburbs = Suburb_Shp.query.all()
-    for suburb in all_suburbs[:1]:
-        lat = suburb.suburb_shp_lat
-        lon = suburb.suburb_shp_long
-        owapi_url = owapi_base_url.replace("<<lat>>", str(lat)).replace(
-            "<<lon>>", str(lon)
+def get_num_requests_for_api(api_name):
+    with open("app/api_requests.csv", "r") as file:
+        reader = csv.DictReader(file)
+        rows = list(reader)
+        for row in rows:
+            if row["api"] == api_name:
+                return int(row["num_requests"])
+        return None
+
+
+def update_num_requests_for_api(api_name, num_requests):
+    with open("app/api_requests.csv", "r") as file:
+        reader = csv.DictReader(file)
+        rows = list(reader)
+        for row in rows:
+            if row["api"] == api_name:
+                row["num_requests"] = num_requests
+
+        with open("app/api_requests.csv", "w", newline="") as file:
+            writer = csv.DictWriter(file, fieldnames=["api", "num_requests"])
+            writer.writeheader()
+            writer.writerows(rows)
+
+
+@app.route("/suburbs/<string:postcode>", methods=["GET"])
+def get_suburbs(postcode):
+    suburbs = Suburb.query.filter_by(suburb_postcode=postcode)
+    if not suburbs:
+        return jsonify({"message": "Suburbs not found"}), 400
+    suburbs_list = [suburb.to_dict().get("suburb_name") for suburb in suburbs]
+    if len(suburbs_list) == 0:
+        return jsonify({"message": "Suburbs not found"}), 400
+    return jsonify({"suburbs": suburbs_list}), 200
+
+
+@app.route("/suburbs/<string:postcode>/record", methods=["GET"])
+def get_data_for_suburbs(postcode):
+    suburb = Suburb.query.filter_by(suburb_postcode=postcode).first()
+    if not suburb:
+        return jsonify({"message": "Suburbs not found"}), 400
+    suburb_lat = suburb.to_dict().get("suburb_lat")
+    suburb_long = suburb.to_dict().get("suburb_long")
+    num_requests_owapi = get_num_requests_for_api("owapi")
+    if num_requests_owapi >= 50:
+        return jsonify({"message": "API requests exceeded"}), 500
+    owapi_url = owapi_base_url.replace("<<lat>>", str(suburb_lat)).replace(
+        "<<lon>>", str(suburb_long)
+    )
+
+    update_num_requests_for_api("owapi", num_requests_owapi + 1)
+    response = requests.get(owapi_url)
+
+    if response.status_code == 200:
+        data = response.json()
+        print(data)
+        return jsonify(
+            {
+                "postcode": postcode,
+                "temperature": data["current"].get("temp"),
+                "uvi": data["current"].get("uvi"),
+            }
         )
+
+    else:
         print(owapi_url)
-        response = requests.get(owapi_url)
-        print(response.json())
-    return jsonify(all_suburbs)
+        print(f"Error: {response.status_code}")
+        print(response)
+        
+        return jsonify({"message": "error in open weather api"}), 500
+        # return jsonify(all_suburbs)
 
-
-@app.route("/locations", methods=["GET"])
-def get_locations():
-    all_locations = Suburb.query.all()
-    result = [loc.to_dict() for loc in all_locations]
-    return jsonify(result)
-
-
-@app.route("/locations/<int:location_id>", methods=["GET"])
-def get_location(suburb_name):
-    location = Suburb.query.get_or_404(suburb_name)
-
-    # Include related data if needed
-    result = suburb_name.to_dict()
-    if request.args.get("include_suburbs"):
-        result["suburbs"] = [suburb.to_dict() for suburb in suburb_name.suburbs]
-    # Add similar logic for other related data (temp_alerts, uv_records) as required
-
-    return jsonify(result)
+    return jsonify({"suburbs": owapi_url}), 200
 
 
 #########################################################
@@ -318,7 +379,12 @@ def manage_sunscreen_reminders(users_id):
 
     if request.method == "GET":
         reminders = user.ss_reminders  # Fetch reminders via relationship
-        result = [reminder.to_dict() for reminder in reminders]
+        result = []
+        for reminder in reminders:
+            rem = reminder.to_dict()
+            rem["ssreminder_id"] = "{}".format(rem.get("ssreminder_id"))
+            rem["users_id"] = "{}".format(rem.get("users_id"))
+            result.append(rem)
         return jsonify(result)
 
     elif request.method == "POST":
@@ -362,11 +428,39 @@ def manage_sunscreen_reminders(users_id):
 
 
 @app.route(
+    "/users/<int:users_id>/sunscreen-reminders/<int:ssreminder_id>", methods=["GET"]
+)
+def get_specific_reminder(users_id, ssreminder_id):
+    # Check if the user exists
+    user = Users.query.get_or_404(users_id)
+    if not user:
+        return jsonify({"error": "Invalid User"}), 400
+
+    reminder = SSReminder.query.get_or_404(ssreminder_id)
+    if not reminder:
+        return jsonify({"error": "Invalid Reminder"}), 400
+
+    if reminder.users_id != users_id:
+        return jsonify({"error": "Unauthorized"}), 401  # Authorization check
+
+    result = reminder.to_dict()
+    result["ssreminder_id"] = "{}".format(result.get("ssreminder_id"))
+    result["users_id"] = "{}".format(result.get("users_id"))
+    return jsonify(result), 200
+
+
+@app.route(
     "/users/<int:users_id>/sunscreen-reminders/<int:ssreminder_id>", methods=["PUT"]
 )
 def update_sunscreen_reminder(users_id, ssreminder_id):
+    # Check if the user exists
     user = Users.query.get_or_404(users_id)
+    if not user:
+        return jsonify({"error": "Invalid User"}), 400
+
     reminder = SSReminder.query.get_or_404(ssreminder_id)
+    if not reminder:
+        return jsonify({"error": "Invalid Reminder"}), 400
 
     if reminder.users_id != users_id:
         return jsonify({"error": "Unauthorized"}), 401  # Authorization check
@@ -375,15 +469,24 @@ def update_sunscreen_reminder(users_id, ssreminder_id):
     for key, value in data.items():
         setattr(reminder, key, value)
     db.session.commit()
-    return jsonify(reminder.to_dict())
+    result = reminder.to_dict()
+    result["ssreminder_id"] = "{}".format(result.get("ssreminder_id"))
+    result["users_id"] = "{}".format(result.get("users_id"))
+    return jsonify(result), 200
 
 
 @app.route(
-    "/users/<int:users_id>/sunscreen-reminders/<int:ssreminder_id>", methods=["DELETE"]
+    "/users/<int:users_id>/delete-reminder/<int:ssreminder_id>", methods=["DELETE"]
 )
 def delete_sunscreen_reminder(users_id, ssreminder_id):
+    # Check if the user exists
     user = Users.query.get_or_404(users_id)
+    if not user:
+        return jsonify({"error": "Invalid User"}), 400
+
     reminder = SSReminder.query.get_or_404(ssreminder_id)
+    if not reminder:
+        return jsonify({"error": "Invalid Reminder"}), 400
 
     if reminder.users_id != users_id:
         return jsonify({"error": "Unauthorized"}), 401  # Authorization check
@@ -393,9 +496,50 @@ def delete_sunscreen_reminder(users_id, ssreminder_id):
     return "", 204
 
 
-########################################################################
+#########################################################
 
-# Real Database:
+# UV Data routes
+
+
+@app.route("/uv-impacts", methods=["GET"])
+def get_uvimpacts_data():
+    age = request.args.get("age", type=int)
+    gender = request.args.get("gender", type=str)
+    age_str = None
+    if age > 90:
+        age_str = "90+"
+    else:
+        age_min = (age // 5) * 5
+        age_max = age_min + 4
+        age_str = "{:02d}-{:02d}".format(age_min, age_max)
+
+    filtered_rows = CancerStatistics.query.filter(
+        and_(
+            CancerStatistics.cancer_age_group == age_str,
+            CancerStatistics.cancer_gender == gender,
+        )
+    ).all()
+
+    data_rows = []
+    for row in filtered_rows:
+        row_dict = row.to_dict()
+        incidence_rate, mortality_rate = (
+            row_dict["cancer_age_specific_incidence_rate"],
+            row_dict["cancer_age_specific_mortality_rate"],
+        )
+
+        print(incidence_rate, mortality_rate)
+        print(float(incidence_rate) if incidence_rate != "None" else incidence_rate)
+        row_dict["cancer_age_specific_incidence_rate"] = (
+            float(incidence_rate) if incidence_rate != "None" else incidence_rate
+        )
+        row_dict["cancer_age_specific_mortality_rate"] = (
+            float(mortality_rate) if mortality_rate != "None" else mortality_rate
+        )
+        data_rows.append(row_dict)
+    return jsonify({"_data": data_rows})
+
+
 if __name__ == "__main__":
     with app.app_context():
         try:
@@ -403,4 +547,6 @@ if __name__ == "__main__":
             print("Database tables created successfully.")
         except Exception as e:
             print(f"An error occurred while creating the database tables: {e}")
+        create_app_folder()
+        create_apireq_csv()
     app.run(debug=True if os.environ.get("FLASK_ENV") == "dev" else False, port=5000)

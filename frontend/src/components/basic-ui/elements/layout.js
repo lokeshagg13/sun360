@@ -2,7 +2,8 @@ import { Fragment } from "react";
 
 import Navbar from "./Navbar";
 
-import "./layout.css";
+import "./Layout.css";
+import Acknowledgement from "./Acknowledgement";
 
 // For basic layout of every app page
 function Layout(props) {
@@ -11,6 +12,7 @@ function Layout(props) {
     <Fragment>
       <Navbar />
       <main className="main">{props.children}</main>
+      <Acknowledgement />
     </Fragment>
   );
 }

@@ -42,7 +42,6 @@ function Register() {
       for (let i = 1; i <= updatedMembers.length; i += 1) {
         updatedMembers[i - 1].id = i;
       }
-      console.log(updatedMembers);
       setFamilyMembers(updatedMembers);
     } else {
       // Current member value changed

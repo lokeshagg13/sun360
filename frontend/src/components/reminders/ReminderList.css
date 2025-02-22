@@ -6,7 +6,7 @@ button.add-reminder {
   border-radius: 5px;
   cursor: pointer;
   width: 100%;
-  margin-top: 55px;
+  margin-top: 30px;
 }
 
 button.add-reminder:hover {

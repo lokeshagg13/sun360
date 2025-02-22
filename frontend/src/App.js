@@ -1,16 +1,18 @@
 import React from "react";
 
 import { Routes, Route, Navigate } from "react-router-dom"; // Updated import
-import Layout from "./components/basic-ui/elements/layout";
+import Layout from "./components/basic-ui/elements/Layout";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import RemindersPage from "./pages/RemindersPage";
 import AddRemindersPage from "./pages/AddRemindersPage";
-import SkinSpotPredPage from "./pages/SkinSpotPredPage";
+import ClothingPage from "./pages/ClothingPage";
+import UVImpactsPage from "./pages/UVImpactsPage";
 import RequireAuth from "./components/user/RequireAuth";
 import useAuth from "./hooks/useAuth";
 import Page404 from "./pages/page404";
+import ReminderDetailsPage from "./pages/ReminderDetailsPage";
 
 function App() {
   // For validating whether user is logged in or not
@@ -38,14 +40,15 @@ function App() {
 
           <Route path="/register" element={<RegisterPage />} />
 
+          <Route path="/clothing" element={<ClothingPage />} />
+
+          <Route path="/uv-impacts" element={<UVImpactsPage />} />
+
           {/* Protected Routes */}
           <Route element={<RequireAuth />}>
             <Route path="/reminders" element={<RemindersPage />} />
+            <Route path="/reminders/:id" element={<ReminderDetailsPage />} />
             <Route path="/add-reminder" element={<AddRemindersPage />} />
-            <Route
-              path="/skin-spot-prediction"
-              element={<SkinSpotPredPage />}
-            />
           </Route>
 
           {/* Invalid Paths */}

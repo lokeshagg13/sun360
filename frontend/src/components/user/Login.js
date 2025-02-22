@@ -51,6 +51,7 @@ function Login() {
       // Navigate to search page on successful login
       navigate("/", { replace: true });
     } catch (error) {
+      console.log(error)
       // Handling different login issues
       setLoginStatus('e');
       if (!error?.response) {
@@ -58,7 +59,7 @@ function Login() {
       } else if (error.response?.status === 401) {
         setLoginRemarks("Invalid credentials.");
       } else {
-        setLoginRemarks("Login failed. Please try again later/");
+        setLoginRemarks("Login failed. Please try again later");
       }
     }
   };

@@ -1,0 +1,16 @@
+h2 {
+  text-align: center;
+}
+
+.clothing-image img {
+  width: 100%;
+}
+
+.source-div {
+  text-align: left !important;
+}
+
+.source {
+  font-style: italic;
+  font-size: 12px;
+}

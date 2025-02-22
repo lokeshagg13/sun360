@@ -1,0 +1,47 @@
+.recomm-row {
+  display: flex;
+  margin: 20px 0px;
+}
+
+.recomm-box {
+  width: 170px;
+  height: 40px;
+  border: 1.5px solid black;
+  margin-top: 6px;
+}
+
+.recomm-box.green {
+  background-color: #5cbd5e;
+}
+
+.recomm-box.yellow {
+  background-color: #ffd304;
+}
+
+.recomm-box.darkyellow {
+  background-color: #f9a51b;
+}
+
+.recomm-box.red {
+  background-color: #f1592e;
+}
+
+.recomm-box.purple {
+  background-color: #60469d;
+}
+
+.recomm-text {
+  margin-left: 20px;
+  font-size: 13px;
+  text-align: justify;
+  width: 310%;
+  font-family: sans-serif;
+}
+
+.recomm-text .uv {
+  font-weight: 700;
+}
+
+.recomm-text .text {
+  display: inline;
+}

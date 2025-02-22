@@ -1,0 +1,42 @@
+.graph-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid;
+  margin: 20px 0px;
+  width: 100%;
+  padding: 0px 0px 0px 9px;
+}
+
+.graph-inner canvas {
+  width: 70% !important;
+  height: auto !important;
+}
+
+@media (max-width: 768px) {
+  .graph-inner canvas {
+    width: 100% !important;
+    height: auto !important;
+  }
+}
+
+.analysis {
+  border: 1.5px solid;
+  margin: 20px 0px;
+  width: 100%;
+  padding: 0.2rem 0.5rem;
+}
+
+.analysis p {
+  text-align: center;
+  font-size: 16px;
+}
+
+.source-div {
+  text-align: center;
+}
+
+.source {
+  font-style: italic;
+  font-size: 12px;
+}

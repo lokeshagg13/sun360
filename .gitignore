@@ -3,6 +3,7 @@ frontend/node_modules
 backend-env
 backend-env/Lib/site-packages
 backend-env/share
+app/api_requests.csv
 __pycache__
 
 

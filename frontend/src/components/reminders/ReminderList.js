@@ -6,6 +6,7 @@ import useAuth from "../../hooks/useAuth";
 import ReminderMiniCard from "./ReminderMiniCard";
 
 import "./ReminderList.css";
+import { getReminderDisplayInfo } from "../../utils/reminderUtils";
 
 const GET_REMINDERS_URL =
   "http://127.0.0.1:5000/users/<<user_id>>/sunscreen-reminders";
@@ -19,15 +20,31 @@ function ReminderList() {
     const fetchReminders = async () => {
       try {
         const response = await axios.get(
-          GET_REMINDERS_URL.replace("<<user_id>>", auth.accessID),
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+          GET_REMINDERS_URL.replace("<<user_id>>", auth.accessID)
         );
         setFetchStatus("s");
-        setReminders(response.data || []);
+        const fetchedReminders = response?.data || [];
+        let filteredReminders = [];
+        for (let i = 0; i < fetchedReminders.length; i += 1) {
+          let rem = fetchedReminders[i];
+          const { frequency, color, day, time, recommTime } =
+            getReminderDisplayInfo(
+              rem.ssreminder_type,
+              rem.ssreminder_color_code,
+              rem.ssreminder_date,
+              rem.ssreminder_time,
+              rem.ssreminder_weekday
+            );
+          if (day !== null) {
+            rem.ssreminder_freq = frequency;
+            rem.ssreminder_color = color;
+            rem.ssreminder_day = day;
+            rem.ssreminder_time = time;
+            rem.ssreminder_recomm_time = recommTime;
+            filteredReminders.push(rem);
+          }
+        }
+        setReminders(filteredReminders);
       } catch (error) {
         console.log(error);
         setFetchStatus("e");
@@ -50,12 +67,16 @@ function ReminderList() {
         reminders.map((reminder) => (
           <ReminderMiniCard
             key={reminder.ssreminder_id}
-            color={reminder.ssreminder_color_code}
-            time={reminder.ssreminder_time}
+            id={reminder.ssreminder_id}
             user={reminder.ssreminder_title}
+            notes={reminder.ssreminder_notes}
             date={reminder.ssreminder_date}
             weekday={reminder.ssreminder_weekday}
-            frequency={reminder.ssreminder_type}
+            frequency={reminder.ssreminder_freq}
+            color={reminder.ssreminder_color}
+            day={reminder.ssreminder_day}
+            time={reminder.ssreminder_time}
+            recommTime={reminder.ssreminder_recomm_time}
           />
         ))}
       <Link to="/add-reminder">
