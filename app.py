@@ -70,6 +70,8 @@ def create_apireq_csv():
 
 @app.route("/", methods=["GET"])
 def serve_react_app():
+    print('I am here, ', os.curdir)
+    print(app.static_folder)
     return send_from_directory(app.static_folder, "index.html")
 
 
