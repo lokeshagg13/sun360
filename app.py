@@ -54,17 +54,13 @@ owapi_base_url = (
 
 
 def create_app_folder():
-    print(os.listdir('app'))
     if not os.path.exists("app"):
-        print('creating')
         os.makedirs("app")
 
 
 def create_apireq_csv():
     file_path = os.path.join("app", "api_requests.csv")
-    print(os.listdir('app'))
     if not os.path.exists(file_path):
-        print('creating')
         with open(file_path, mode="w", newline="") as csv_file:
             writer = csv.writer(csv_file)
             # Write the headers
@@ -306,7 +302,6 @@ def manage_user(users_id):
 
 
 def get_num_requests_for_api(api_name):
-    print(os.listdir('app'))
     with open("app/api_requests.csv", "r") as file:
         reader = csv.DictReader(file)
         rows = list(reader)
@@ -360,7 +355,6 @@ def get_data_for_suburbs(postcode):
 
     if response.status_code == 200:
         data = response.json()
-        print(data)
         return jsonify(
             {
                 "postcode": postcode,
@@ -370,15 +364,10 @@ def get_data_for_suburbs(postcode):
         )
 
     else:
-        print(owapi_url)
         print(f"Error: {response.status_code}")
         print(response)
 
         return jsonify({"message": "error in open weather api"}), 500
-        # return jsonify(all_suburbs)
-
-    return jsonify({"suburbs": owapi_url}), 200
-
 
 #########################################################
 # SUNSCREEN REMINDERS
@@ -542,8 +531,6 @@ def get_uvimpacts_data():
             row_dict["cancer_age_specific_mortality_rate"],
         )
 
-        print(incidence_rate, mortality_rate)
-        print(float(incidence_rate) if incidence_rate != "None" else incidence_rate)
         row_dict["cancer_age_specific_incidence_rate"] = (
             float(incidence_rate) if incidence_rate != "None" else incidence_rate
         )
