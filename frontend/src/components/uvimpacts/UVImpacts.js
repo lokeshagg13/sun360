@@ -5,7 +5,7 @@ import "./UVImpacts.css";
 import UVImpactsGraph from "./UVImpactsGraph";
 
 const GET_UV_IMPACTS_URL =
-  "http://127.0.0.1:5000/uv-impacts?age=<<age>>&gender=<<gender>>";
+  "/api/uv-impacts?age=<<age>>&gender=<<gender>>";
 
 function getAnalysisText(gender, ageGroup, graphDataMel) {
   return `For ${

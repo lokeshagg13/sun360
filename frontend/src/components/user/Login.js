@@ -7,7 +7,7 @@ import useAuth from "../../hooks/useAuth";
 
 import "./Login.css";
 
-const LOGIN_URL = "http://127.0.0.1:5000/login";
+const LOGIN_URL = "/api/login";
 
 function Login() {
   const { setAuth } = useAuth();

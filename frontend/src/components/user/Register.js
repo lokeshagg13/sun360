@@ -7,7 +7,7 @@ import FamilyMemberCard from "./FamilyMemberCard";
 
 import "./Register.css";
 
-const REGISTER_URL = "http://127.0.0.1:5000/users";
+const REGISTER_URL = "/api/users";
 
 function Register() {
   const [name, setName] = useState("");

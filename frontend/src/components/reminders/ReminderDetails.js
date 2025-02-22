@@ -10,9 +10,9 @@ import { useNavigate } from "react-router-dom";
 import "./ReminderDetails.css"
 
 const GET_REMINDER_URL =
-  "http://127.0.0.1:5000/users/<<user_id>>/sunscreen-reminders/<<reminder_id>>";
+  "/api/users/<<user_id>>/sunscreen-reminders/<<reminder_id>>";
 const DELETE_REMINDER_URL =
-  "http://127.0.0.1:5000/users/<<user_id>>/delete-reminder/<<reminder_id>>";
+  "/api/users/<<user_id>>/delete-reminder/<<reminder_id>>";
 
 function ReminderDetails(props) {
   const { id } = props;
