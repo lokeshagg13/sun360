@@ -30,13 +30,22 @@ load_dotenv()
 #######################################################
 
 app = Flask(__name__, static_folder="frontend/build", static_url_path="/")
-CORS(app, supports_credentials=True, allow_headers="*", origins="*")
+
+CORS(
+    app,
+    resources={
+        r"/*": {"origins": ["http://127.0.0.1:5000", "https://sun360.onrender.com"]}
+    },
+)
+
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+db.init_app(app)
+
 owapi_base_url = (
     "https://api.openweathermap.org/data/3.0/onecall?lat=<<lat>>&lon=<<lon>>&exclude=hourly,daily,minutely,alerts&units=metric&appid="
     + os.environ.get("OPEN_WEATHER_API_KEY")
 )
-db.init_app(app)
+
 
 
 # @app.before_request
