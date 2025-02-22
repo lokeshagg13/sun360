@@ -67,11 +67,37 @@ def create_apireq_csv():
 #######################################################
 # Basic Routes (Placeholders )
 
+def display_file_structure(folder_path, indent_level=0):
+    """Displays the file structure of a given folder in a stylized format."""
+    try:
+        # Get a sorted list of items in the directory
+        items = sorted(os.listdir(folder_path))
+    except FileNotFoundError:
+        print("Error: Folder not found.")
+        return
+    except PermissionError:
+        print("Error: Permission denied.")
+        return
+    
+    for item in items:
+        item_path = os.path.join(folder_path, item)
+        # Add indentation for nested directories/files
+        indent = " " * (indent_level * 4)
+        if os.path.isdir(item_path):
+            # Display directory name in brackets
+            print(f"{indent}[{item}]")
+            # Recursively display the contents of the directory
+            display_file_structure(item_path, indent_level + 1)
+        else:
+            # Display file name
+            print(f"{indent}{item}")
+
+
 
 @app.route("/", methods=["GET"])
 def serve_react_app():
-    print('I am here, ', os.curdir)
-    print(app.static_folder)
+    print('I am here, ', os.getcwd())
+    display_file_structure(os.getcwd())
     return send_from_directory(app.static_folder, "index.html")
 
 
