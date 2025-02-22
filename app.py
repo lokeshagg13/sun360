@@ -355,7 +355,6 @@ def get_data_for_suburbs(postcode):
 
     if response.status_code == 200:
         data = response.json()
-        print(data)
         return jsonify(
             {
                 "postcode": postcode,
@@ -365,15 +364,10 @@ def get_data_for_suburbs(postcode):
         )
 
     else:
-        print(owapi_url)
         print(f"Error: {response.status_code}")
         print(response)
 
         return jsonify({"message": "error in open weather api"}), 500
-        # return jsonify(all_suburbs)
-
-    return jsonify({"suburbs": owapi_url}), 200
-
 
 #########################################################
 # SUNSCREEN REMINDERS
@@ -537,8 +531,6 @@ def get_uvimpacts_data():
             row_dict["cancer_age_specific_mortality_rate"],
         )
 
-        print(incidence_rate, mortality_rate)
-        print(float(incidence_rate) if incidence_rate != "None" else incidence_rate)
         row_dict["cancer_age_specific_incidence_rate"] = (
             float(incidence_rate) if incidence_rate != "None" else incidence_rate
         )
@@ -549,6 +541,9 @@ def get_uvimpacts_data():
     return jsonify({"_data": data_rows})
 
 
+create_app_folder()
+create_apireq_csv()
+    
 if __name__ == "__main__":
     with app.app_context():
         try:
@@ -556,6 +551,4 @@ if __name__ == "__main__":
             print("Database tables created successfully.")
         except Exception as e:
             print(f"An error occurred while creating the database tables: {e}")
-        create_app_folder()
-        create_apireq_csv()
     app.run(debug=True if os.environ.get("FLASK_ENV") == "dev" else False, port=5000)
